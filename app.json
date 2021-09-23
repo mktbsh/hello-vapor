@@ -1,0 +1,11 @@
+{
+    "name": "vapor-999",
+    "description": "vapor x react",
+    "repository": "https://github.com/mktbsh/hello-vapor",
+    "stack": "heroku-20",
+    "buildpacks": [
+        {
+            "url": "vapor/vapor"
+        }
+    ]
+}
