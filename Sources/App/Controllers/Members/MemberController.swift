@@ -1,25 +1,24 @@
 import Vapor
 
 struct MembersController {
-    let memberList = [
-        "An jeongmin",
-        "Su Ruiqi"
-    ]
-    
     func register(_ api: Vapor.RoutesBuilder) {
         let members = api.grouped("members")
         
-        members.get { req in
-            return memberList
+        members.get { _ -> [Member] in
+            let useCase = FindMemberUseCase(memberRepository: InMemoryMemberRepository())
+            return useCase.getAllMembers()
         }
-        
-        members.get(":name") { req -> String in
-            let params = try req.query.decode(MemberNameQuery.self)
-            return "Hello, \(params.name ?? "Ezaki Hikaru")"
+                
+        members.get(":id") { req -> Member in
+            guard let id = req.parameters.get("id") else {
+                throw Abort(.badRequest)
+            }
+            
+            let useCase = FindMemberUseCase(memberRepository: InMemoryMemberRepository())
+            guard let member = useCase.getMember(id: id) else {
+                throw Abort(.notFound)
+            }
+            return member
         }
     }
-}
-
-struct MemberNameQuery: Content {
-    var name: String?
 }
