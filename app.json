@@ -5,7 +5,7 @@
     "stack": "heroku-20",
     "buildpacks": [
         {
-            "url": "vapor/vapor"
+            "url": "https://github.com/vapor-community/heroku-buildpack.git"
         }
     ]
 }
